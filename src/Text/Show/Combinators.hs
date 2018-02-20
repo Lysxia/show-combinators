@@ -80,25 +80,25 @@ showInfix op prec showX showY d = showParen (d > prec)
 showInfix' :: (Show a, Show b) => String -> Int -> a -> b -> PrecShowS
 showInfix' op prec x y = showInfix op prec (flip showsPrec x) (flip showsPrec y)
 
--- | Strings representing a set of fields separated by commas.
+-- | Strings representing a set of record fields separated by commas.
 -- They can be constructed using ('.=.') and ('@|'), or using 'showField' and
 -- 'appendFields'.
 type ShowFields = ShowS
 
 -- | Show a record. The first argument is the constructor name.
--- The second represents the set of fields.
+-- The second represents the set of record fields.
 showRecord :: String -> ShowFields -> PrecShowS
 showRecord con showFields _ =
   showString con . showSpace . showChar '{' . showFields . showChar '}'
 
--- | Show a single field: a field name and a value separated by @\'=\'@.
+-- | Show a single record field: a field name and a value separated by @\'=\'@.
 showField :: String -> PrecShowS -> ShowFields
 showField field showX =
   showString field . showString " = " . showX 0
 
 infixr 8 .=.
 
--- | Show a single field: a field name and a value separated by @\'=\'@.
+-- | Show a single record field: a field name and a value separated by @\'=\'@.
 --
 -- This is an infix shorthand for 'showField' when the value type is an
 -- instance of 'Show'.
@@ -107,13 +107,13 @@ infixr 8 .=.
 (.=.) :: Show a => String -> a -> ShowFields
 field .=. x = showField field (flip showsPrec x)
 
--- | Empty record.
+-- | Empty set of record fields.
 noFields :: ShowFields
 noFields = id
 
 infixr 1 `appendFields`, &|
 
--- | Separate two sets of fields by a comma.
+-- | Separate two nonempty sets of record fields by a comma.
 appendFields :: ShowFields -> ShowFields -> ShowFields
 appendFields showFds1 showFds2 = showFds1 . showChar ',' . showFds2
 
