@@ -115,7 +115,7 @@ infixr 1 `appendFields`, &|
 
 -- | Separate two nonempty sets of record fields by a comma.
 appendFields :: ShowFields -> ShowFields -> ShowFields
-appendFields showFds1 showFds2 = showFds1 . showChar ',' . showFds2
+appendFields showFds1 showFds2 = showFds1 . showString ", " . showFds2
 
 -- | An infix synonym of 'appendFields'.
 (&|) :: ShowFields -> ShowFields -> ShowFields
