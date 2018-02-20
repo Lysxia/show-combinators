@@ -21,7 +21,8 @@
 -- @
 
 module Text.Show.Combinators
-  ( PrecShowS
+  ( module Text.Show
+  , PrecShowS
   , showCon
   , showApp
   , (@|)
@@ -34,6 +35,8 @@ module Text.Show.Combinators
   , appendFields
   , (&|)
   ) where
+
+import Text.Show
 
 -- | Type of strings representing expressions, parameterized by the surrounding
 -- precedence level.
