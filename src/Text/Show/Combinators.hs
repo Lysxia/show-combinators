@@ -94,7 +94,7 @@ showRecord con showFields _ =
 -- | Show a single field: a field name and a value separated by @\'=\'@.
 showField :: String -> PrecShowS -> ShowFields
 showField field showX =
-  showString field . showChar '=' . showX 0
+  showString field . showString " = " . showX 0
 
 infixr 8 .=.
 
