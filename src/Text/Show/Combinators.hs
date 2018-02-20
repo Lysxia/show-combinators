@@ -32,6 +32,7 @@ module Text.Show.Combinators
   , showRecord
   , showField
   , (.=.)
+  , noFields
   , appendFields
   , (&|)
   ) where
@@ -105,6 +106,10 @@ infixr 8 .=.
 -- > field .=. x = showField field (flip showsPrec x)
 (.=.) :: Show a => String -> a -> ShowFields
 field .=. x = showField field (flip showsPrec x)
+
+-- | Empty record.
+noFields :: ShowFields
+noFields = id
 
 infixr 1 `appendFields`, &|
 
