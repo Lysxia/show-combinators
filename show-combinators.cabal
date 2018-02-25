@@ -1,7 +1,8 @@
 name:                show-combinators
 version:             0.1.0.0
 synopsis:            Combinators to write Show instances
--- description:
+description:
+  A minimal pretty-printing library for Show instances in Haskell.
 homepage:            https://github.com/Lysxia/show-combinators#readme
 license:             MIT
 license-file:        LICENSE
