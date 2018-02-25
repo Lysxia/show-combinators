@@ -14,10 +14,10 @@
 --
 -- instance 'Show' a => 'Show' (MyType a) where
 --   'showsPrec' = 'flip' precShows where
---     precShows (C a b) = 'showCon' "C" '@|' a '@|' b
---     precShows (c :+: d) = 'showInfix'' ":+:" 4 c d
+--     precShows (C a b) = 'showCon' \"C\" '@|' a '@|' b
+--     precShows (c :+: d) = 'showInfix'' \":+:\" 4 c d
 --     precShows (R {f1 = e, f2 = f}) =
---       'showRecord' "R" ("f1" '.=.' e '&|' "f2" '.=.' f)
+--       'showRecord' \"R\" (\"f1\" '.=.' e '&|' \"f2\" '.=.' f)
 -- @
 
 module Text.Show.Combinators
