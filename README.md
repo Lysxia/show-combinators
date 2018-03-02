@@ -1,4 +1,4 @@
-# Show combinators
+# Show combinators [![Hackage](https://img.shields.io/hackage/v/show-combinators.svg)](https://hackage.haskell.org/package/show-combinators) [![Build Status](https://travis-ci.org/Lysxia/show-combinators.svg)](https://travis-ci.org/Lysxia/show-combinators)
 
 A minimal set of convenient combinators to write `Show` instances.
 
