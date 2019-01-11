@@ -26,6 +26,10 @@ module Text.Show.Combinators
   , (@|)
   , showInfix
   , showInfix'
+  , showInfixl
+  , showInfixl'
+  , showInfixr
+  , showInfixr'
   , ShowFields
   , showRecord
   , showField
@@ -82,8 +86,7 @@ showApp showF showX d = showParen (d > appPrec)
 
 -- | Show an applied infix operator with a given precedence.
 showInfix :: String -> Int -> PrecShowS -> PrecShowS -> PrecShowS
-showInfix op prec showX showY d = showParen (d > prec)
-  (showX (prec + 1) . showSpace . showString op . showSpace . showY (prec + 1))
+showInfix op prec = showInfix_ op prec (prec + 1) (prec + 1)
 
 -- | Show an applied infix operator with a given precedence.
 --
@@ -94,6 +97,69 @@ showInfix op prec showX showY d = showParen (d > prec)
 -- >   showInfix op prec (flip showsPrec x) (flip showsPrec y)
 showInfix' :: (Show a, Show b) => String -> Int -> a -> b -> PrecShowS
 showInfix' op prec x y = showInfix op prec (flip showsPrec x) (flip showsPrec y)
+
+-- | Show an applied infix operator which is left associative (@infixl@).
+-- Use with care.
+--
+-- This combinator assumes that, if there is another infix operator to the
+-- left, it is either left associative with the same precedence, or it has a
+-- different precedence.
+-- An expression containing two operators at the same level with different
+-- associativities is ambiguous.
+--
+-- By default, prefer 'showInfix' and 'showInfix''.
+showInfixl :: String -> Int -> PrecShowS -> PrecShowS -> PrecShowS
+showInfixl op prec = showInfix_ op prec prec (prec + 1)
+
+-- | Show an applied infix operator which is left associative (@infixl@).
+-- Use with care, see 'showInfixl'.
+--
+-- This is a shorthand for 'showInfixl' when the arguments types are instances
+-- of 'Show'.
+--
+-- By default, prefer 'showInfix' and 'showInfix''.
+showInfixl' :: (Show a, Show b) => String -> Int -> a -> b -> PrecShowS
+showInfixl' op prec x y = showInfixl op prec (flip showsPrec x) (flip showsPrec y)
+
+-- | Show an applied infix operator which is right associative (@infixr@).
+-- Use with care.
+--
+-- This combinator assumes that, if there is another infix operator to the
+-- right, it is either right associative with the same precedence, or it has a
+-- different precedence.
+-- An expression containing two operators at the same level with different
+-- associativities is ambiguous.
+--
+-- By default, prefer 'showInfix' and 'showInfix''.
+--
+-- === __Example usage__
+--
+-- @
+-- showList :: Show a => [a] -> PrecShowS
+-- showList [] = showCon "[]"
+-- showList (x : xs) = showInfixr ":" 5 (flip showsPrec x) (showList xs)
+--
+-- -- Example output:
+-- -- > 0 : 1 : 2 : 3 : []
+-- @
+showInfixr :: String -> Int -> PrecShowS -> PrecShowS -> PrecShowS
+showInfixr op prec = showInfix_ op prec (prec + 1) prec
+
+-- | Show an applied infix operator which is right associative (@infixr@).
+-- Use with care, see 'showInfixr'.
+--
+-- This is a shorthand for 'showInfixr' when the arguments types are instances
+-- of 'Show'.
+--
+-- By default, prefer 'showInfix' and 'showInfix''.
+showInfixr' :: (Show a, Show b) => String -> Int -> a -> b -> PrecShowS
+showInfixr' op prec x y = showInfixr op prec (flip showsPrec x) (flip showsPrec y)
+
+-- | An internal combinator for infix operators, to explicitly update the
+-- precedence levels on each side.
+showInfix_ :: String -> Int -> Int -> Int -> PrecShowS -> PrecShowS -> PrecShowS
+showInfix_ op prec precX precY showX showY d = showParen (d > prec)
+  (showX precX . showSpace . showString op . showSpace . showY precY)
 
 -- | Strings representing a set of record fields separated by commas.
 -- They can be constructed using ('.=.') and ('@|'), or using 'showField' and
