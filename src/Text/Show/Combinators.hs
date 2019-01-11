@@ -1,6 +1,4 @@
--- | Combinators for 'Show'
---
--- The combinators below can be used to write 'Show' instances.
+-- | Combinators to write 'Show' instances.
 --
 -- The following type illustrates the common use cases.
 --
