@@ -44,6 +44,23 @@ import Text.Show
 type PrecShowS = Int -> ShowS
 
 -- | Show a constructor.
+--
+-- Possible constructor names are:
+--
+-- - regular constructors (e.g., @\"Left\"@);
+-- - parenthesized infix constructors (e.g., @\"(:)\"@);
+-- - smart constructors, for abstract types (e.g., @\"Map.fromList\"@).
+--
+-- === __Example with smart constructor__
+--
+-- @
+-- instance (Show k, Show v) => Show (Map k v) where
+--   showsPrec = 'flip' precShows where
+--     precShows m = 'showCon' \"Map.fromList\" '@|' Map.toList m
+--
+-- -- Example output:
+-- -- > Map.fromList [(33, True), (55, False)]
+-- @
 showCon :: String -> PrecShowS
 showCon con _ = showString con
 
