@@ -21,15 +21,24 @@
 module Text.Show.Combinators
   ( module Text.Show
   , PrecShowS
+
+    -- * Simple constructors and applications
   , showCon
   , showApp
   , (@|)
+
+    -- * Infix constructors
   , showInfix
   , showInfix'
+
+    -- ** Combinators for associative operators
+    -- | Use with care, see 'showInfixl'.
   , showInfixl
   , showInfixl'
   , showInfixr
   , showInfixr'
+
+    -- * Records
   , ShowFields
   , showRecord
   , showField
