@@ -193,7 +193,7 @@ infixr 8 .=.
 -- This is an infix shorthand for 'showField' when the value type is an
 -- instance of 'Show'.
 --
--- > field .=. x = showField field (flip showsPrec x)
+-- > field .=. x   =   showField field (flip showsPrec x)
 (.=.) :: Show a => String -> a -> ShowFields
 field .=. x = showField field (flip showsPrec x)
 
