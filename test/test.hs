@@ -21,14 +21,14 @@ _showsMyType' (c :+: d) = showInfix' ":+:" 4 c d
 _showsMyType' (R {f1 = e, f2 = f}) =
   showRecord "R" ("f1" .=. e &| "f2" .=. f)
 
-showL :: [Int] -> PrecShowS
-showL [] = showCon "[]"
-showL (x : xs) = showInfixr ":" 5 (flip showsPrec x) (showL xs)
-
--- snoc lists
 showR :: [Int] -> PrecShowS
 showR [] = showCon "[]"
-showR (x : xs) = showInfixl ":" 5 (showR xs) (flip showsPrec x)
+showR (x : xs) = showInfixr ":" 5 (flip showsPrec x) (showR xs)
+
+-- snoc lists
+showL :: [Int] -> PrecShowS
+showL [] = showCon "[]"
+showL (x : xs) = showInfixl ":" 5 (showL xs) (flip showsPrec x)
 
 check :: Show a => (a -> PrecShowS) -> a -> IO ()
 check show' x = assertEqual s s'
@@ -52,8 +52,8 @@ main = do
   check smt2 (C (C () ()) (() :+: ()))
   check smt2 ((() :+: ()) :+: (() :+: ()))
   check smt2 (R (C () ()) (C () ()))
-  assertEqual (unPS showL [1,2,3]) "1 : 2 : 3 : []"
-  assertEqual (unPS showR [1,2,3]) "[] : 3 : 2 : 1"
+  assertEqual (unPS showR [1,2,3]) "1 : 2 : 3 : []"
+  assertEqual (unPS showL [1,2,3]) "[] : 3 : 2 : 1"
   where
     smt1 = showsMyType (flip showsPrec)
     smt2 = showsMyType smt1
