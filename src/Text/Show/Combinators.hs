@@ -32,7 +32,7 @@ module Text.Show.Combinators
   , showInfix'
 
     -- ** Combinators for associative operators
-    -- | Use with care, see 'showInfixl'.
+    -- | Use with care, see warning under 'showInfixl'.
   , showInfixl
   , showInfixl'
   , showInfixr
@@ -110,11 +110,14 @@ showInfix' op prec x y = showInfix op prec (flip showsPrec x) (flip showsPrec y)
 -- | Show an applied infix operator which is left associative (@infixl@).
 -- Use with care.
 --
+-- ==== Warning
+--
 -- This combinator assumes that, if there is another infix operator to the
 -- left, it is either left associative with the same precedence, or it has a
 -- different precedence.
 -- An expression containing two operators at the same level with different
--- associativities is ambiguous.
+-- associativities is ambiguous and will not be shown correctly with
+-- 'showInfixl' and 'showInfixr'.
 --
 -- By default, prefer 'showInfix' and 'showInfix''.
 showInfixl :: String -> Int -> PrecShowS -> PrecShowS -> PrecShowS
@@ -133,11 +136,14 @@ showInfixl' op prec x y = showInfixl op prec (flip showsPrec x) (flip showsPrec 
 -- | Show an applied infix operator which is right associative (@infixr@).
 -- Use with care.
 --
+-- ==== Warning
+--
 -- This combinator assumes that, if there is another infix operator to the
 -- right, it is either right associative with the same precedence, or it has a
 -- different precedence.
 -- An expression containing two operators at the same level with different
--- associativities is ambiguous.
+-- associativities is ambiguous and will not be shown correctly with
+-- 'showInfixl' and 'showInfixr'.
 --
 -- By default, prefer 'showInfix' and 'showInfix''.
 --
