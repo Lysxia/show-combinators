@@ -30,11 +30,11 @@ showL :: [Int] -> PrecShowS
 showL [] = showCon "[]"
 showL (x : xs) = showInfixl ":" 5 (showL xs) (flip showsPrec x)
 
-check :: Show a => (a -> PrecShowS) -> a -> IO ()
-check show' x = assertEqual s s'
+check :: Show a => (a -> PrecShowS) -> Int -> a -> IO ()
+check show' d x = assertEqual s s'
   where
-    s = show x
-    s' = show' x 0 ""
+    s = showsPrec d x ""
+    s' = show' x d ""
 
 assertEqual :: (Eq a, Show a) => a -> a -> IO ()
 assertEqual s s' =
@@ -48,10 +48,10 @@ unPS p x = p x 0 ""
 
 main :: IO ()
 main = do
-  check smt1 (C () ())
-  check smt2 (C (C () ()) (() :+: ()))
-  check smt2 ((() :+: ()) :+: (() :+: ()))
-  check smt2 (R (C () ()) (C () ()))
+  check smt1  0 (C () ())
+  check smt2  0 (C (C () ()) (() :+: ()))
+  check smt2  0 ((() :+: ()) :+: (() :+: ()))
+  check smt2 11 (R (C () ()) (C () ()))
   assertEqual (unPS showR [1,2,3]) "1 : 2 : 3 : []"
   assertEqual (unPS showL [1,2,3]) "[] : 3 : 2 : 1"
   where

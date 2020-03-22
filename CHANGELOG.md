@@ -1,3 +1,8 @@
+# next
+
+- Fix a bug where `showRecord` would not parenthesize the output if a high
+  enough precedence were supplied.
+
 # 0.1.1.0
 
 - Added `showInfixl`, `showInfixr`, `showInfixl'`, `showInfixr'`.
