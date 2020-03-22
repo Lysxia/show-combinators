@@ -1,4 +1,4 @@
-# next
+# 0.2.0.0
 
 - Fix a bug where `showRecord` would not parenthesize the output if a high
   enough precedence were supplied.
