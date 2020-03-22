@@ -184,8 +184,8 @@ type ShowFields = ShowS
 -- | Show a record. The first argument is the constructor name.
 -- The second represents the set of record fields.
 showRecord :: String -> ShowFields -> PrecShowS
-showRecord con showFields _ =
-  showString con . showSpace . showChar '{' . showFields . showChar '}'
+showRecord con showFields d = showParen (d > appPrec)
+  (showString con . showSpace . showChar '{' . showFields . showChar '}')
 
 -- | Show a single record field: a field name and a value separated by @\'=\'@.
 showField :: String -> PrecShowS -> ShowFields
