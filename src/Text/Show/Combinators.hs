@@ -209,7 +209,7 @@ noFields = id
 
 infixr 1 `appendFields`, &|
 
--- | Separate two nonempty sets of record fields by a comma.
+-- | Separate two __nonempty__ sets of record fields by a comma.
 appendFields :: ShowFields -> ShowFields -> ShowFields
 appendFields showFds1 showFds2 = showFds1 . showString ", " . showFds2
 
